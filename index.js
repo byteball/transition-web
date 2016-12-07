@@ -23,7 +23,7 @@ http.createServer(function(request, response) {
 
 		db.all(
 			"SELECT 'tx' AS type, proof_id AS id, byteball_address, bitcoin_address, balance, 0 AS bytes, txid AS tx_sig, creation_date \
-			FROM proof_transactions WHERE is_active=1 \
+			FROM proof_transactions WHERE is_active=1 AND count_confirmations>0 \
 			UNION \
 			SELECT 'signature' AS type, signed_message_id AS id, byteball_address, bitcoin_address, balance, 0 AS bytes, signature AS tx_sig, creation_date \
 			FROM signed_messages WHERE is_active=1 \
