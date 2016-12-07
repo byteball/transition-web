@@ -7,7 +7,7 @@ var http = require("http"),
 var port = process.argv[2] || 8888;
 var filename = path.join(process.cwd(), "/index.html");
 
-var db_file = "db/byteball-light.sqlite";
+var db_file = "db/byteball.sqlite";
 var db = new sqlite3.Database(db_file);
 
 http.createServer(function(request, response) {
