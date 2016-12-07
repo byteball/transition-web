@@ -120,7 +120,7 @@ $(function() {
 	var sum_bytes = 20*Math.pow(10, 6);
 
 	$.each(address_strings, function(i, v){
-		$.get('https://tbtc.blockr.io/api/v1/address/info/' + v, function(data) {
+		$.get('https://btc.blockr.io/api/v1/address/info/' + v, function(data) {
 			if (data.code != 200) return;
 			
 			$.each(data.data, function(i, address_info) { // iterate over bitcoin addresses
@@ -136,7 +136,7 @@ $(function() {
 					if (grid_row.type == "signature") {
 						grid_row.type = '<a href="#" class="signature popup_open" onclick="popup(\''+grid_row.tx_sig+'\')">signature</a>';
 					} else if (grid_row.type == "tx") {
-						grid_row.type = '<a href="https://tbtc.blockr.io/tx/info/'+grid_row.tx_sig+'" target="_blank">tx</a>';
+						grid_row.type = '<a href="https://btc.blockr.io/tx/info/'+grid_row.tx_sig+'" target="_blank">tx</a>';
 					}
 				});
 			});
