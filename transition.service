@@ -1,0 +1,11 @@
+[Unit]
+Description=Byteball Transition NodeJS backend
+
+[Service]
+TimeoutStartSec=0
+Restart=always
+WorkingDirectory=/home/tony/transition-web
+ExecStart=node index.js
+
+[Install]
+WantedBy=multi-user.target
