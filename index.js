@@ -22,10 +22,10 @@ http.createServer(function(request, response) {
 		response.write(file, "binary");
 
 		db.all(
-			"SELECT 'tx' AS type, proof_id AS id, byteball_address, bitcoin_address, balance, 0 AS bytes, txid AS tx_sig, creation_date \
+			"SELECT 'tx' AS type, proof_id AS id, byteball_address, bitcoin_address, balance, 0 AS bytes, txid AS tx_sig, creation_date, share \
 			FROM proof_transactions WHERE is_active=1 AND count_confirmations>0 \
 			UNION \
-			SELECT 'signature' AS type, signed_message_id AS id, byteball_address, bitcoin_address, balance, 0 AS bytes, signature AS tx_sig, creation_date \
+			SELECT 'signature' AS type, signed_message_id AS id, byteball_address, bitcoin_address, balance, 0 AS bytes, signature AS tx_sig, creation_date, share \
 			FROM signed_messages WHERE is_active=1 \
 			ORDER BY creation_date DESC", 
 			function(err, rows) {
@@ -42,4 +42,4 @@ http.createServer(function(request, response) {
 	});
 }).listen(parseInt(port, 10));
 
-console.log("server running at\n  => http://localhost:" + port + "/\nCTRL + C to shutdown");
+console.log("server running at\n  => localhost:" + port + "/\nCTRL + C to shutdown");
