@@ -163,7 +163,7 @@ $(function() {
 						grid_row.balance = address_info.balance;
 					}
 					
-					grid_row.share = (grid_row.balance / btc_sum * 100).toFixed(2); // calculate bytes distribution
+					grid_row.share = (grid_row.balance / btc_sum * 100).toFixed(4); // calculate bytes distribution
 					
 					if (grid_row.type == "signature") {
 						grid_row.type = '<a href="#" class="signature popup_open" onclick="popup(\''+grid_row.tx_sig+'\')">signature</a>';
