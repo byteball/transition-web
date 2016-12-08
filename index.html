@@ -102,7 +102,7 @@
 			<th data-column-id="byteball_address">Byteball Address</th>
 			<th data-column-id="bitcoin_address" data-formatter="btc">Bitcoin Address</th>
 			<th data-column-id="balance" data-type="numeric" data-align="right" data-header-align="right" data-formatter="number">BTC balance</th>
-			<th data-column-id="share" data-type="numeric" data-align="right" data-header-align="right">Share, %</th>
+			<th data-column-id="share" data-type="numeric" data-align="right" data-header-align="right" data-formatter="number">Share, %</th>
 			<th data-column-id="type" data-searchable="false" data-align="center" data-header-align="center">Details</th>
 		</tr>
 	</thead>
@@ -131,10 +131,10 @@ $(function() {
 		 formatters: {
 			number: function (column, row)
 			{
-				var number = parseFloat(row.balance);
+				var number = parseFloat(row[column.id]);
 				wholePart = Math.floor(number);
 				fractionPart = String(number % 1).substring(2) + "        ";
-				return wholePart + (number % 1 ? '.' : ' ') + fractionPart.substring(0, 8);
+				return wholePart + (number % 1 ? '.' : ' ') + fractionPart.substring(0, column.id == "balance" ? 8 : 4) + "  ";
 			},
 			btc: function (column, row)
 			{
@@ -170,7 +170,7 @@ $(function() {
 						grid_row.balance = address_info.balance;
 					}
 					
-					grid_row.share = (grid_row.balance / btc_sum * 100).toFixed(4); // calculate bytes distribution
+					grid_row.share = grid_row.balance / btc_sum * 100; // calculate bytes distribution
 					
 					if (grid_row.type == "signature") {
 						grid_row.type = '<a href="#" class="signature popup_open" onclick="popup(\''+grid_row.tx_sig+'\')">signature</a>';
