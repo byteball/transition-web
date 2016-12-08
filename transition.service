@@ -5,7 +5,7 @@ Description=Byteball Transition NodeJS backend
 TimeoutStartSec=0
 Restart=always
 WorkingDirectory=/home/tony/transition-web
-ExecStart=node index.js
+ExecStart=/usr/bin/node index.js
 User=tony
 
 [Install]
