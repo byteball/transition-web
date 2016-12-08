@@ -3,6 +3,9 @@
 <head>
 	<title>Bytes Distribution</title>
 	<meta charset="utf-8">
+	<link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32" />
+	<link rel="icon" type="image/png" href="favicon-16x16.png" sizes="16x16" />
+
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	
@@ -12,6 +15,9 @@
 	<script src="jquery.bootgrid.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-bootgrid/1.3.1/jquery.bootgrid.fa.min.js"></script>
 	<script src="https://cdn.rawgit.com/vast-engineering/jquery-popup-overlay/1.7.13/jquery.popupoverlay.js"></script>
+
+	<!-- FontAwesome CSS -->
+	<link href="css/font-awesome.min.css" rel="stylesheet">
 
 	<style type="text/css">
 		.signature, .signature:hover {
@@ -30,7 +36,7 @@
 		}
 		#header h5 {
 			font-weight: bold;
-			font-size: 24px;
+			font-size: 16px;
 		}
 		#outer-circle {
 			margin-top: 20px;
@@ -63,12 +69,19 @@
 			minus half of the width and minus half of the height 
 			*/
 		}
+		.footer {
+			padding-top: 40px;
+			padding-bottom: 40px;
+			/*margin-top: 40px;*/
+			border-top: 1px solid #eee;
+			text-align: center;
+		}
 	</style>
 </head>
 <body>
 <div id="header">
-	<a href="https://byteball.org"><div id="outer-circle"><div id="inner-circle"></div></div></a>
-	<h5>Byteball</h5>
+	<a href="https://byteball.org" target="_blank"><div id="outer-circle"><div id="inner-circle"></div></div></a>
+	<a href="https://byteball.org" target="_blank"><h5>Byteball</h5></a>
 	<h3>Total balance linked: <span id="btc_sum"></span> BTC</h3>
 	<h3>Current transition rate: <span id="tx_rate"></span> BTC/gigabyte</h3>
 </div>
@@ -80,12 +93,26 @@
 		<tr>
 			<th data-column-id="id" data-type="numeric" data-searchable="false" data-visible="false">ID</th>
 			<th data-column-id="byteball_address">Byteball Address</th>
-			<th data-column-id="bitcoin_address">Bitcoin Address</th>
+			<th data-column-id="bitcoin_address" data-formatter="btc">Bitcoin Address</th>
 			<th data-column-id="balance" data-type="numeric" data-align="right" data-header-align="right" data-formatter="number">BTC balance</th>
+			<th data-column-id="share" data-type="numeric" data-align="right" data-header-align="right">Share, %</th>
 			<th data-column-id="type" data-searchable="false" data-align="center" data-header-align="center">Details</th>
 		</tr>
 	</thead>
 </table>
+
+<footer class="footer">
+	Contact:
+	&nbsp;
+	<script>document.write('<a href="mailto:byteball');document.write('@');document.write('byteball.org">byteball');document.write('@');document.write('byteball.org</a>');</script>
+	&nbsp;
+	<a href="https://twitter.com/ByteballOrg" target="_blank" title="Twitter"><i class="fa fa-twitter"></i></a>
+	&nbsp;
+	<a href="https://bitcointalk.org/index.php?topic=1608859.0" target="_blank" title="BitcoinTalk thread"><i class="fa fa-bitcoin"></i></a>
+	&nbsp;
+	<a href="http://slack.byteball.org" target="_blank" title="Slack"><i class="fa fa-slack"></i></a>
+	&nbsp;
+</footer>
 
 <div id="popup" style="display: none;">
 	Signature: <div class="text"></div>
@@ -101,6 +128,10 @@ $(function() {
 				wholePart = Math.floor(number);
 				fractionPart = String(number % 1).substring(2) + "        ";
 				return wholePart + (number % 1 ? '.' : ' ') + fractionPart.substring(0, 8);
+			},
+			btc: function (column, row)
+			{
+				return '<a href="https://btc.blockr.io/address/info/'+row.bitcoin_address+'" target="_blank">'+row.bitcoin_address+'</a>';
 			}
 		}
 	});
@@ -132,7 +163,7 @@ $(function() {
 						grid_row.balance = address_info.balance;
 					}
 					
-					grid_row.bytes = Math.round((grid_row.balance / btc_sum) * sum_bytes); // calculate bytes distribution
+					grid_row.share = (grid_row.balance / btc_sum * 100).toFixed(4); // calculate bytes distribution
 					
 					if (grid_row.type == "signature") {
 						grid_row.type = '<a href="#" class="signature popup_open" onclick="popup(\''+grid_row.tx_sig+'\')">signature</a>';
