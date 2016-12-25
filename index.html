@@ -164,10 +164,11 @@ $(function() {
 			if (data.code != 200) return;
 			
 			$.each(data.data, function(i, address_info) { // iterate over bitcoin addresses
-				btc_sum += address_info.balance;
+			//	btc_sum += address_info.balance;
 				
 				$.each(dataJSON, function(i, grid_row) {
 					if (grid_row.bitcoin_address == address_info.address) {
+						btc_sum += grid_row.balance;
 					//	grid_row.balance = address_info.balance;
 					}
 					
