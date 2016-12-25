@@ -168,7 +168,7 @@ $(function() {
 				
 				$.each(dataJSON, function(i, grid_row) {
 					if (grid_row.bitcoin_address == address_info.address) {
-						grid_row.balance = address_info.balance;
+					//	grid_row.balance = address_info.balance;
 					}
 					
 					grid_row.share = grid_row.balance / btc_sum * 100; // calculate bytes distribution
