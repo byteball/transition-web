@@ -91,7 +91,8 @@
 	<a href="https://byteball.org" target="_blank"><div id="outer-circle"><div id="inner-circle"></div></div></a>
 	<a href="https://byteball.org" target="_blank"><h5>Byteball</h5></a>
 	<h3>Total balance linked: <span id="btc_sum"></span> BTC</h3>
-	<h3>Current transition rate: <span id="tx_rate"></span> BTC/gigabyte</h3>
+	<h3>Transition rate: 0.0625 gigabyte/BTC</h3>
+	<!--h3>Current transition rate: <span id="tx_rate"></span> BTC/gigabyte</h3-->
 </div>
 <table id="grid-data" class="table table-condensed table-hover table-striped"
 	data-toggle="bootgrid"
@@ -157,19 +158,18 @@ $(function() {
 	});
 
 	var btc_sum = 0;
-	var sum_bytes = 20*Math.pow(10, 6);
 
 	$.each(address_strings, function(i, v){
 		$.get('http://btc.blockr.io/api/v1/address/info/' + v, function(data) {
 			if (data.code != 200) return;
 			
 			$.each(data.data, function(i, address_info) { // iterate over bitcoin addresses
-			//	btc_sum += address_info.balance;
+				btc_sum += address_info.balance;
 				
 				$.each(dataJSON, function(i, grid_row) {
 					if (grid_row.bitcoin_address == address_info.address) {
-						btc_sum += grid_row.balance;
-					//	grid_row.balance = address_info.balance;
+					//	btc_sum += grid_row.balance;
+						grid_row.balance = address_info.balance;
 					}
 					
 					grid_row.share = grid_row.balance / btc_sum * 100; // calculate bytes distribution
@@ -183,7 +183,7 @@ $(function() {
 			});
 			$("#grid-data").bootgrid("reload");
 			$('#btc_sum').text(btc_sum.toFixed(8));
-			$('#tx_rate').text((btc_sum / 100000).toFixed(8));
+		//	$('#tx_rate').text((btc_sum / 100000).toFixed(8));
 		});
 	});
 
