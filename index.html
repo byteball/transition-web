@@ -161,7 +161,7 @@ $(function() {
 	var sum_bytes = 20*Math.pow(10, 6);
 
 	$.each(address_strings, function(i, v){
-		$.get('http://tbtc.blockr.io/api/v1/address/info/' + v, function(data) {
+		$.get('http://btc.blockr.io/api/v1/address/info/' + v, function(data) {
 			if (data.code != 200) return;
 			
 			$.each(data.data, function(i, address_info) { // iterate over bitcoin addresses
