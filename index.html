@@ -15,6 +15,7 @@
 	<script src="jquery.bootgrid.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-bootgrid/1.3.1/jquery.bootgrid.fa.min.js"></script>
 	<script src="https://cdn.rawgit.com/vast-engineering/jquery-popup-overlay/1.7.13/jquery.popupoverlay.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.4/numeral.min.js"></script>
 
 	<!-- FontAwesome CSS -->
 	<link href="css/font-awesome.min.css" rel="stylesheet">
@@ -133,10 +134,10 @@ $(function() {
 		 formatters: {
 			number: function (column, row)
 			{
-				var number = parseFloat(row[column.id]);
-				wholePart = Math.floor(number);
-				fractionPart = (number > 0 ? (number % 1).toFixed(10).substring(2) : "") + "        ";
-				return wholePart + (number % 1 ? '.' : ' ') + fractionPart.substring(0, column.id == "balance" ? 8 : 4) + "  ";
+				var number = numeral(row[column.id]);
+				var wholePart = number.format("0");
+				var fractionPart = number.format("[.][00000000]") + "         ";
+				return wholePart + fractionPart.slice(0, column.id == "balance" ? 9 : 5);
 			},
 			btc: function (column, row)
 			{
