@@ -102,9 +102,9 @@
 		<tr>
 			<th data-column-id="byteball_address">Byteball Address</th>
 			<th data-column-id="bitcoin_address" data-formatter="btc">Bitcoin Address</th>
-			<th data-column-id="balance" data-type="numeric" data-align="right" data-order="asc" data-header-align="right" data-formatter="number"
+			<th data-column-id="balance" data-type="numeric" data-align="right" data-header-align="right" data-formatter="number"
 			data-width="15%">BTC balance</th>
-			<th data-column-id="share" data-type="numeric" data-align="right" data-order="asc" data-header-align="right" data-formatter="number" data-width="10%">Share, %</th>
+			<th data-column-id="share" data-type="numeric" data-align="right" data-header-align="right" data-formatter="number" data-width="10%">Share, %</th>
 			<th data-column-id="type" data-searchable="false" data-align="center" data-header-align="center" data-width="10%">Details</th>
 		</tr>
 	</thead>
@@ -161,7 +161,7 @@ $(function() {
 	var sum_bytes = 20*Math.pow(10, 6);
 
 	$.each(address_strings, function(i, v){
-		$.get('http://btc.blockr.io/api/v1/address/info/' + v, function(data) {
+		$.get('http://tbtc.blockr.io/api/v1/address/info/' + v, function(data) {
 			if (data.code != 200) return;
 			
 			$.each(data.data, function(i, address_info) { // iterate over bitcoin addresses
