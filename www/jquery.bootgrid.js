@@ -870,8 +870,8 @@
         }
         else
         {
-            this.sortDictionary[columnId] = "asc";
-            icon.addClass(css.iconUp);
+            this.sortDictionary[columnId] = "desc";
+            icon.addClass(css.iconDown);
         }
     }
 
