@@ -135,7 +135,7 @@ $(function() {
 			{
 				var number = parseFloat(row[column.id]);
 				wholePart = Math.floor(number);
-				fractionPart = (number > 0 ? (number % 1).toFixed(10).substring(2) : "0") + "        ";
+				fractionPart = (number > 0 ? (number % 1).toFixed(10).substring(2) : "") + "        ";
 				return wholePart + (number % 1 ? '.' : ' ') + fractionPart.substring(0, column.id == "balance" ? 8 : 4) + "  ";
 			},
 			btc: function (column, row)
