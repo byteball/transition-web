@@ -135,7 +135,7 @@ $(function() {
 			{
 				var number = numeral(row[column.id]);
 				var wholePart = number.format("0");
-				var fractionPart = number.format("[.][00000000]") + "         ";
+				var fractionPart = number.format("[.][00000000]") + (column.id == "balance" ? "         " : "     ");
 				return wholePart + fractionPart.slice(0, column.id == "balance" ? 9 : 5);
 			},
 			btc: function (column, row)
