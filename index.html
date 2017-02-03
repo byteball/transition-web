@@ -134,7 +134,7 @@ $(function() {
 			number: function (column, row)
 			{
 				var number = numeral(row[column.id]);
-				var wholePart = number.format("0");
+				var wholePart = ~~row[column.id];
 				var fractionPart = number.format("[.][00000000]") + (column.id == "balance" ? "         " : "     ");
 				return wholePart + fractionPart.slice(0, column.id == "balance" ? 9 : 5);
 			},
