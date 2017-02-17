@@ -100,7 +100,7 @@
 	data-row-count="50">
 	<thead>
 		<tr>
-			<th data-column-id="byteball_address">Byteball Address</th>
+			<th data-column-id="byteball_address" data-formatter="address">Byteball Address</th>
 			<th data-column-id="bitcoin_address" data-formatter="btc">Bitcoin Address</th>
 			<th data-column-id="balance" data-type="numeric" data-align="right" data-header-align="right" data-formatter="number"
 			data-width="15%">BTC balance</th>
@@ -141,6 +141,10 @@ $(function() {
 			btc: function (column, row)
 			{
 				return '<a href="http://btc.blockr.io/address/info/'+row.bitcoin_address+'" target="_blank">'+row.bitcoin_address+'</a>';
+			},
+			address: function (column, row)
+			{
+				return '<a href="https://explorer.byteball.org/#'+row.byteball_address+'" target="_blank">'+row.byteball_address+'</a>';
 			}
 		}
 	});
