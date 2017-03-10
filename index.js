@@ -34,7 +34,11 @@ http.createServer(function(request, response) {
 					response.end();
 					throw Error(err);
 				}
-				response.write('<script type="text/javascript"> var dataJSON = ' + JSON.stringify(rows) + '</script>');
+				var sum_btc = 0;
+				for (var i in rows) {
+					sum_btc += rows[i].balance;
+				}
+				response.write('<script type="text/javascript"> var dataJSON = ' + JSON.stringify(rows) + '; var btc_sum = ' + sum_btc + ';</script>');
 				response.write('</body></html>');
 				response.end();
 			}
