@@ -1458,7 +1458,7 @@
      **/
     Grid.prototype.reload = function()
     {
-        this.current = 1; // reset
+        // this.current = 1; // reset
         loadData.call(this);
 
         return this;

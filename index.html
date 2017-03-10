@@ -148,49 +148,64 @@ $(function() {
 			}
 		}
 	});
-	$("#grid-data").bootgrid("append", dataJSON);
-	var addresses = [];
-	var address_strings = [];
-	
-	$.each(dataJSON, function(i, v) {
-		addresses.push(v.bitcoin_address);
-		
-		if ((i+1) % 20 == 0) { // request in blocks of 20 addresses
+
+	var update_page = function(){
+		return;
+		setTimeout(function(){
+			var addresses = [];
+			var address_strings = [];
+			var sum = 0;
+			$('#grid-data tbody tr:visible').each(function(i, v){
+				addresses.push($(this).find('td:eq(1)').text());
+				if ((i+1) % 20 == 0) { // request in blocks of 20 addresses
+					address_strings.push(addresses.join());
+					addresses = [];
+				}
+				sum += parseFloat($(this).find('td:eq(2)').text());
+			});
 			address_strings.push(addresses.join());
-			addresses = [];
-		}
-	});
-
-	var btc_sum = 0;
-	var sum_bytes = 20*Math.pow(10, 6);
-
-	$.each(address_strings, function(i, v){
-		$.get('http://btc.blockr.io/api/v1/address/info/' + v, function(data) {
-			if (data.code != 200) return;
-			
-			$.each(data.data, function(i, address_info) { // iterate over bitcoin addresses
-				btc_sum += address_info.balance;
-				
-				$.each(dataJSON, function(i, grid_row) {
-					if (grid_row.bitcoin_address == address_info.address) {
-						grid_row.balance = address_info.balance;
-					}
-					
-					grid_row.share = grid_row.balance / btc_sum * 100; // calculate bytes distribution
-					
-					if (grid_row.type == "signature") {
-						grid_row.type = '<a href="#" class="signature popup_open" onclick="popup(\''+grid_row.tx_sig+'\')">signature</a>';
-					} else if (grid_row.type == "tx") {
-						grid_row.type = '<a href="http://btc.blockr.io/tx/info/'+grid_row.tx_sig+'" target="_blank">tx</a>';
-					}
+			console.log(sum, btc_sum);
+			btc_sum -= sum;
+			$.each(address_strings, function(i, v){
+				$.get('http://tbtc.blockr.io/api/v1/address/info/' + v, function(data) {
+					if (data.code != 200) return;
+					var temp = 0;
+					$.each(data.data, function(i, address_info) { // iterate over bitcoin addresses						
+						$.each(dataJSON, function(i, grid_row) {
+							if (grid_row.bitcoin_address != address_info.address)
+								return;
+							temp += address_info.balance;
+							console.log(address_info.address);
+							grid_row.balance = address_info.balance;
+							btc_sum += address_info.balance;
+							
+							
+							grid_row.share = grid_row.balance / btc_sum * 100; // calculate bytes distribution
+							
+							if (grid_row.type == "signature") {
+								grid_row.type = '<a href="#" class="signature popup_open" onclick="popup(\''+grid_row.tx_sig+'\')">signature</a>';
+							} else if (grid_row.type == "tx") {
+								grid_row.type = '<a href="http://btc.blockr.io/tx/info/'+grid_row.tx_sig+'" target="_blank">tx</a>';
+							}
+							return false; // break for $.each()
+						});
+					});
+					console.log(temp);
+					$("#grid-data").bootgrid("reload");
+					$('#btc_sum').text(btc_sum.toFixed(8));
+					$('#tx_rate').text((btc_sum / 100000).toFixed(8));
 				});
 			});
-			$("#grid-data").bootgrid("reload");
-			$('#btc_sum').text(btc_sum.toFixed(8));
-			$('#tx_rate').text((btc_sum / 100000).toFixed(8));
-		});
-	});
+		}, 200);
+	};
 
+	$(document).on('mouseup', '.pagination .button', update_page);
+	$("#grid-data").bootgrid("append", dataJSON);
+	$("#grid-data").bootgrid("reload");
+	$('#btc_sum').text(btc_sum.toFixed(8));
+	$('#tx_rate').text((btc_sum / 100000).toFixed(8));
+
+	update_page();
 });
 function popup(text) {
 	$('#popup').popup({type: 'tooltip', 'horizontal': 'left'});
