@@ -201,6 +201,10 @@ $(function() {
 	$(document).on('mouseup', '.pagination .button', update_page);
 	$("#grid-data").bootgrid("append", dataJSON);
 
+	$('#grid-data th').on('click', function(e){
+		$('.pagination .first a').click();
+	});
+
 	update_page();
 });
 function popup(text, anchor) {
