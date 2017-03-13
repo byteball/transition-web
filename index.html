@@ -98,7 +98,7 @@
 <table id="grid-data" class="table table-condensed table-hover table-striped"
 	data-toggle="bootgrid"
 	data-column-selection="false"
-	data-row-count="50">
+	data-row-count="60">
 	<thead>
 		<tr>
 			<th data-column-id="byteball_address" data-formatter="address">Byteball Address</th>
@@ -203,6 +203,7 @@ $(function() {
 
 	$('#grid-data th').on('click', function(e){
 		$('.pagination .first a').click();
+		update_page();
 	});
 
 	update_page();
