@@ -211,6 +211,6 @@ $(function() {
 });
 function popup(text) {
 	$('#popup').popup({type: 'tooltip', 'horizontal': 'left'});
-	$('#popup .text').text(text);//.parent().popup('show');
+	$('#popup .text').text(text).parent().popup('show');
 }
 </script>
