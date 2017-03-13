@@ -680,7 +680,7 @@
         tbody.off("click" + namespace, "> tr")
             .on("click" + namespace, "> tr", function(e)
             {
-                e.stopPropagation();
+                //e.stopPropagation();
 
                 var $this = $(this),
                     id = (that.identifier == null) ? $this.data("row-id") :

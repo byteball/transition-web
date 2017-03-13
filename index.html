@@ -152,7 +152,6 @@ $(function() {
 	});
 
 	var update_page = function(){
-		return;
 		setTimeout(function(){
 			var addresses = [];
 			var address_strings = [];
@@ -176,8 +175,6 @@ $(function() {
 						$.each(dataJSON, function(i, grid_row) {
 							if (grid_row.bitcoin_address != address_info.address)
 								return;
-							temp += address_info.balance;
-							console.log(address_info.address);
 							grid_row.balance = address_info.balance;
 							btc_sum += address_info.balance;
 							
@@ -185,14 +182,14 @@ $(function() {
 							grid_row.share = grid_row.balance / btc_sum * 100; // calculate bytes distribution
 							
 							if (grid_row.type == "signature") {
-								grid_row.type = '<a href="#" class="signature popup_open" onclick="popup(\''+grid_row.tx_sig+'\')">signature</a>';
+								grid_row.type = '<a href="#" class="signature popup_open" onclick="popup(\''+grid_row.tx_sig+'\', this);return false;">signature</a>';
 							} else if (grid_row.type == "tx") {
 								grid_row.type = '<a href="http://btc.blockr.io/tx/info/'+grid_row.tx_sig+'" target="_blank">tx</a>';
 							}
 							return false; // break for $.each()
 						});
 					});
-					console.log(temp);
+
 					$("#grid-data").bootgrid("reload");
 					$('#btc_sum').text(btc_sum.toFixed(8));
 					$('#tx_rate').text((btc_sum / 100000).toFixed(8));
@@ -203,21 +200,11 @@ $(function() {
 
 	$(document).on('mouseup', '.pagination .button', update_page);
 	$("#grid-data").bootgrid("append", dataJSON);
-	$.each(dataJSON, function(i, grid_row) {
-		if (grid_row.type == "signature") {
-			grid_row.type = '<a href="#" class="signature popup_open" onclick="popup(\''+grid_row.tx_sig+'\')">signature</a>';
-		} else if (grid_row.type == "tx") {
-			grid_row.type = '<a href="http://btc.blockr.io/tx/info/'+grid_row.tx_sig+'" target="_blank">tx</a>';
-		}
-	});
-	$("#grid-data").bootgrid("reload");
-	$('#btc_sum').text(btc_sum.toFixed(8));
-	$('#tx_rate').text((btc_sum / 100000).toFixed(8));
 
 	update_page();
 });
-function popup(text) {
-	$('#popup').popup({type: 'tooltip', 'horizontal': 'left'});
+function popup(text, anchor) {
+	$('#popup').popup('hide').popup({type: 'tooltip', horizontal: 'left', autoopen: true, tooltipanchor: anchor});
 	$('#popup .text').text(text);//.parent().popup('show');
 }
 </script>
