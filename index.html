@@ -98,7 +98,7 @@
 <table id="grid-data" class="table table-condensed table-hover table-striped"
 	data-toggle="bootgrid"
 	data-column-selection="false"
-	data-row-count="50">
+	data-row-count="60">
 	<thead>
 		<tr>
 			<th data-column-id="byteball_address" data-formatter="address">Byteball Address</th>
@@ -180,12 +180,6 @@ $(function() {
 							
 							
 							grid_row.share = grid_row.balance / btc_sum * 100; // calculate bytes distribution
-							
-							if (grid_row.type == "signature") {
-								grid_row.type = '<a href="#" class="signature popup_open" onclick="popup(\''+grid_row.tx_sig+'\', this);return false;">signature</a>';
-							} else if (grid_row.type == "tx") {
-								grid_row.type = '<a href="http://btc.blockr.io/tx/info/'+grid_row.tx_sig+'" target="_blank">tx</a>';
-							}
 							return false; // break for $.each()
 						});
 					});
@@ -200,6 +194,18 @@ $(function() {
 
 	$(document).on('mouseup', '.pagination .button', update_page);
 	$("#grid-data").bootgrid("append", dataJSON);
+
+	$('#grid-data th').on('click', function(e){
+		$('.pagination .first a').click();
+	});
+
+	$.each(dataJSON, function(i, grid_row) {
+ 		if (grid_row.type == "signature") {
+			grid_row.type = '<a href="#" class="signature popup_open" onclick="popup(\''+grid_row.tx_sig+'\', this);return false;">signature</a>';
+		} else if (grid_row.type == "tx") {
+			grid_row.type = '<a href="http://btc.blockr.io/tx/info/'+grid_row.tx_sig+'" target="_blank">tx</a>';
+		}
+ 	});
 
 	update_page();
 });
