@@ -153,6 +153,9 @@ $(function() {
 
 	var update_page = function(){
 		setTimeout(function(){
+			$('#btc_sum').text(btc_sum.toFixed(8));
+			$('#tx_rate').text((btc_sum / 100000).toFixed(8));
+			return;
 			var addresses = [];
 			var address_strings = [];
 			var sum = 0;
@@ -207,7 +210,7 @@ $(function() {
 		}
  	});
 
-//	update_page();
+	update_page();
 });
 function popup(text, anchor) {
 	$('#popup').popup('hide').popup({type: 'tooltip', horizontal: 'left', autoopen: true, tooltipanchor: anchor});
